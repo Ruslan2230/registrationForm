@@ -3,7 +3,7 @@ import React from 'react';
 class Basic extends React.Component{
     render() {
 
-    const {firstname, lastname, password, repeatPassword, errors, gender, onChange} = this.props;
+    const {values, errors,onChange} = this.props;
 
     // console.log(this);
    return(
@@ -16,7 +16,7 @@ class Basic extends React.Component{
       placeholder="Enter Firstname"
       ref={node => (this.firstname = node)}
       name="firstname"
-      value={firstname}
+      value={values.firstname}
       onChange={onChange}
     />
 
@@ -36,7 +36,7 @@ class Basic extends React.Component{
       placeholder="Enter Lastname"
       ref={node => (this.lastname = node)}
       name="lastname"
-      value={lastname}
+      value={values.lastname}
       onChange={onChange}
     />
     {errors.lastname ? (
@@ -54,7 +54,7 @@ class Basic extends React.Component{
       placeholder="Enter password"
       ref={node => (this.password = node)}
       name="password"
-      value={password}
+      value={values.password}
       onChange={onChange}
     />
     
@@ -74,7 +74,7 @@ class Basic extends React.Component{
       placeholder="Enter repeat password"
       ref={node => (this.repeatPassword = node)}
       name="repeatPassword"
-      value={repeatPassword}
+      value={values.repeatPassword}
       onChange={onChange}
     />
 
@@ -95,7 +95,7 @@ class Basic extends React.Component{
         id="male"
         name="gender"
         value="male"
-        checked={gender === "male"}
+        checked={values.gender === "male"}
         onChange={onChange}
       />
       <label className="form-check-label" htmlFor="male">
@@ -110,7 +110,7 @@ class Basic extends React.Component{
         id="female"
         name="gender"
         value="female"
-        checked={gender === "female"}
+        checked={values.gender === "female"}
         onChange={onChange}
       />
       <label className="form-check-label" htmlFor="female">

@@ -5,7 +5,7 @@ import React from 'react';
 
 class Button extends React.Component{
     render() {
-    const {onPrevious, onSubmit} = this.props;
+    const {previousFormPage, nextFormPage} = this.props;
     console.log(this);
    return(
  
@@ -13,14 +13,14 @@ class Button extends React.Component{
     <button
       type="submit"
       className="btn btn-light mr-4"
-      onClick={onPrevious}
+      onClick={previousFormPage}
     >
       Previous
     </button>
     <button
       type="submit"
       className="btn btn-secondary"
-      onClick={onSubmit}
+      onClick={nextFormPage}
     >
       Next
     </button>

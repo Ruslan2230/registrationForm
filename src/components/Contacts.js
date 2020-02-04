@@ -3,7 +3,7 @@ import React from 'react';
 
 class Contacts extends React.Component{
     render() {
-    const {email, mobile, country, city, onChange, getOptionsItems, getOptionsItems2, errors} = this.props;
+    const {values, onChange, getOptionsCountries, getOptionsCities, errors} = this.props;
     console.log(this);
    return(
        <div>
@@ -15,7 +15,7 @@ class Contacts extends React.Component{
             placeholder="Enter Email"
             ref={node => (this.email = node)}
             name="email"
-            value={email}
+            value={values.email}
             onChange={onChange}
           />
           {errors.email ? (
@@ -32,7 +32,7 @@ class Contacts extends React.Component{
             placeholder="Enter Mobile"
             ref={node => (this.mobile = node)}
             name="mobile"
-            value={mobile}
+            value={values.mobile}
             onChange={onChange}
           />
           {errors.mobile ? (
@@ -47,10 +47,10 @@ class Contacts extends React.Component{
               className="form-control"
               id="country"
               name="country"
-              value={country}
+              value={values.country}
               onChange={onChange}
             >
-              {getOptionsItems}
+              {getOptionsCountries}
             </select>
           </div>
           <div className="form-group">
@@ -59,7 +59,7 @@ class Contacts extends React.Component{
               className="form-control"
               id="city"
               name="city"
-              value={city}
+              value={values.city}
               onChange={onChange}
             >
               {errors.city ? (
@@ -68,7 +68,7 @@ class Contacts extends React.Component{
                   </div>
                 ) : null}
 
-              {getOptionsItems2}
+              {getOptionsCities}
             </select>
           </div>
 </div>
