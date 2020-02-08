@@ -1,4 +1,6 @@
-import React from 'react';class Basic extends React.Component{
+import React from 'react';
+
+class Steps extends React.Component{
     render() {
 
     const { currentStep } = this.props;
@@ -45,3 +47,9 @@ import React from 'react';class Basic extends React.Component{
 
 
        </div>
+
+   )
+}
+};
+
+export default Steps;
