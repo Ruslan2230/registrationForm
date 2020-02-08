@@ -6,6 +6,7 @@ import Basic from '../components/Basic';
 import Contacts from '../components/Contacts';
 import Avatar from '../components/Avatar';
 import Finish from '../components/Finish'
+import Steps from '../components/Steps'
 
 // "Must be 5 characters or more"
 // "Required"
@@ -14,7 +15,7 @@ export default class App extends React.Component {
   constructor() {
     super();
 
-    this.state = {
+    this.initialState = {
       values: {
         firstname: "",
         lastname: "",
@@ -42,25 +43,30 @@ export default class App extends React.Component {
           avatar: false,
         }
     };
+    this.state = {...this.initialState}
   }
 
   onChange = event => {
-    console.log(event.target.name, event.target.value);
+    // console.log(event.target.name, event.target.value);
     // this.setState({
     //   [event.target.name]: event.target.value
     // });
-    const { name, value } = event.target;
-    const { [name]: _, ...errors } = this.state.errors;
-    
-    this.setState ({
+    // const { name, value } = event.target;
+    // const { [name]: _, ...errors } = this.state.errors;
+    event.persist()
+    this.setState (state => ({
      values: {
-      [name]: value,
-     },
-      errors,
-    });
-};
+      ...state.values,
+      [event.target.name]: event.target.value
+    },
+    errors: {
+      ...state.errors,
+      [event.target.name]: false
+    }
+}))
+  };
 
-pageValidation = () => {
+getErrorsByValues = () => {
   const errors = {};
     // console.log("refs", this.username.value, this.password.value);
     switch (this.state.currentStep) {
@@ -73,7 +79,7 @@ pageValidation = () => {
           errors.lastname = "Must be 5 characters or more";
         }
     
-        if (this.state.values.password < 6) {
+        if (this.state.values.password.length < 6) {
           errors.password = "Must be 6 characters or more";
         }
     
@@ -105,7 +111,7 @@ pageValidation = () => {
   nextFormPage = event => {
   event.preventDefault();
 
-  const errors = this.pageValidation();
+  const errors = this.getErrorsByValues();
 
     if (Object.keys(errors).length > 0) {
       this.setState({
@@ -113,8 +119,8 @@ pageValidation = () => {
       });
     } else {
         this.setState(state => ({
-        currentStep: state.currentStep + 1,
         errors: {},
+        currentStep: state.currentStep + 1,
       }));
 
       console.log("submit", this.state);
@@ -133,22 +139,27 @@ pageValidation = () => {
 
  
 
-  getOptionsCities = cities => {
-    const citiesArr = Object.values(cities);
-    const optionCities = [{ id: 0, name: "Select city" }];
-    const { country } = this.state;
+  getUpdateCities = countryValue => {
+    // const citiesArr = Object.values(cities);
+    // const optionCities = [{ id: 0, name: "Select city" }];
+    // const { country } = this.state;
 
-    citiesArr.forEach((item, index) => {
-      if (+item.country === +country) {
-        const cityItem = {
-          id: index + 1,
-          name: item.name,
-        };
-        optionCities.push(cityItem);
-      }
-    });
-    return optionCities;
-  }
+    // citiesArr.forEach((item, index) => {
+    //   if (+item.country === +country) {
+    //     const cityItem = {
+    //       id: index + 1,
+    //       name: item.name,
+    //     };
+    //     optionCities.push(cityItem);
+    //   } 
+    // });
+    return Object.keys(cities).reduce((acc, cityId) => {
+        if (cities[cityId].country === Number(countryValue)) {
+            acc.push({id: cityId, name: cities[cityId].name})
+        }
+        return acc
+    },[]);
+  };
 
   onChangeAvatar = event => {
     // console.log(event.target.files);
@@ -156,7 +167,9 @@ pageValidation = () => {
     reader.onload = event => {
       // console.log(event.target.result);
       this.setState({
+        values:{
         avatar: event.target.result
+        }
       });
     };
 
@@ -174,71 +187,20 @@ previousFormPage = event => {
 }
 
   resetForm = () => {
-    this.setState({
-      values: {
-        firstname: "",
-        lastname: "",
-        password: "",
-        repeatPassword: "",
-        email: "",
-        mobile: "",
-        country: "1",
-        city: "Select city",
-        gender: "male",
-        agree: true,
-        avatar: "",
-      },
-        errors: {
-          firstname: false,
-          lastname: false,
-          password: false,
-          repeatPassword: false,
-          email: false,
-          mobile: false,
-          country: false,
-          city: false,
-          avatar: false,
-        }
-    }
-    );
-  }
+    this.setState(this.initialState)
+     };
+
 
   // {`${this.state.currentStep === 1 ? "is-active" : ""} `}
   render() {
     // console.log(this);
+    const updateCities = this.getUpdateCities(values.country);
     return (
       <div className="form-container card" onReset={this.resetForm}>
         <div className="form card-body">
-        <div className="steps">
-                <div 
-   className={this.state.currentStep < 1 ? "is-completed" : "step is-active" }             
-                > 
-                  <div 
-                  className="step__marker"> 1 </div>
-                  <div className="step__title mt-1"> Basic </div>
-                </div>
-                <div 
-   className={this.state.currentStep < 2 ? "step" : "step is-active" }                 
-                > 
-                  <div className="step__marker"> 2 </div>
-                  <div className="step__title mt-1"> Contacts 
-                </div>
-                </div>
-                <div 
-     className={this.state.currentStep < 3 ? "step" : "step is-active" }                
-                > 
-                  <div className="step__marker"> 3 </div>
-                  <div className="step__title mt-1"> Avatar </div>
-                </div>
-                <div 
-                className={this.state.currentStep < 4 ? "step" : "step is-active" }          
-                > 
-
-                  <div className="step__marker"> 4 </div>
-                  <div className="step__title mt-1"> Finish </div>
-                </div>
-                
-          </div>
+        <Steps
+          currentStep = {this.state.currentStep}
+        />
           {this.state.currentStep === 1 ? 
           <Basic
           onChange = {this.onChange}
@@ -251,13 +213,13 @@ previousFormPage = event => {
           values={this.state.values}
           onChange={this.onChange}
           getOptionsCountries={this.getOptionsCountries(countries)}
-          getOptionsCities={this.getOptionsCities(cities)}
+          updateCities={updateCities}
           errors = {this.state.errors}
           /> : null }
         
         {this.state.currentStep === 3 ? 
           <Avatar
-          avatar = {this.state.avatar}
+          avatar = {this.state.values.avatar}
           onChangeAvatar={this.onChangeAvatar}
           /> : null}
 

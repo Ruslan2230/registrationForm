@@ -3,7 +3,7 @@ import React from 'react';
 class Basic extends React.Component{
     render() {
 
-    const {values, errors,onChange} = this.props;
+    const {values, errors, onChange} = this.props;
 
     // console.log(this);
    return(

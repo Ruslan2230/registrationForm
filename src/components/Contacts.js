@@ -3,7 +3,7 @@ import React from 'react';
 
 class Contacts extends React.Component{
     render() {
-    const {values, onChange, getOptionsCountries, getOptionsCities, errors} = this.props;
+    const {values, onChange, getOptionsCountries, updateCities, errors} = this.props;
     console.log(this);
    return(
        <div>
@@ -68,7 +68,7 @@ class Contacts extends React.Component{
                   </div>
                 ) : null}
 
-              {getOptionsCities}
+              {updateCities}
             </select>
           </div>
 </div>
