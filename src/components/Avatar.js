@@ -4,7 +4,7 @@ import image from '../images/avatar.png'
 
 class Avatar extends React.Component{
     render() {
-    const {avatar, onChangeAvatar} = this.props;
+    const { avatar, onChangeAvatar, errors} = this.props;
     console.log(this);
    return(
        <div>
@@ -26,6 +26,11 @@ class Avatar extends React.Component{
             className="custom-file-label"
             >Choose avatar</label>
           </div>
+          {errors.avatar ? (
+                      <div className="invalid-feedback">
+                        {errors.avatar}
+                      </div>
+                    ) : null}
           </div>
 </div>
 </div>

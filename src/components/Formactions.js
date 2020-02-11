@@ -3,7 +3,7 @@ import React from 'react';
 
 
 
-class Formactions extends React.Component{
+class FormActions extends React.Component{
     render() {
     const {previousFormPage, nextFormPage} = this.props;
     console.log(this);
@@ -31,4 +31,4 @@ class Formactions extends React.Component{
 }
 };
 
-export default Formactions;
+export default FormActions;

@@ -86,7 +86,7 @@ body {
   margin-top: .25rem;
 }
 
-.step.is-active:not(:first-child):before {
+.step.is-active:not(:first-child):before, .step.is-completed:not(:first-child):before {
   background: #f26120;
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import countries from "../data/countries";
 import cities from "../data/cities";
-import Formactions from '../components/Formactions';
+import FormActions from './FormActions';
 import Basic from '../components/Basic';
 import Contacts from '../components/Contacts';
 import Avatar from '../components/Avatar';
@@ -23,8 +23,8 @@ export default class App extends React.Component {
         repeatPassword: "",
         email: "",
         mobile: "",
-        country: "1",
-        city: "Select city",
+        country: "",
+        city: "",
         gender: "male",
         agree: true,
         avatar: "",
@@ -53,18 +53,25 @@ export default class App extends React.Component {
     // });
     // const { name, value } = event.target;
     // const { [name]: _, ...errors } = this.state.errors;
-    event.persist()
-    this.setState (state => ({
-     values: {
-      ...state.values,
-      [event.target.name]: event.target.value
-    },
-    errors: {
-      ...state.errors,
-      [event.target.name]: false
-    }
-}))
+    // event.persist()
+    this.updateValue({
+      name: event.target.name,
+      value: event.target.value
+    })
   };
+
+  updateValue = ({value, name}) => {
+    this.setState (state => ({
+      values: {
+       ...state.values,
+       [name]: value
+     },
+     errors: {
+       ...state.errors,
+       [name]: false
+     }
+ }))
+  }
 
 getErrorsByValues = () => {
   const errors = {};
@@ -92,7 +99,10 @@ getErrorsByValues = () => {
             errors.email = "Invalid email address";
           }
           if (!/^\d[\d()-]{4,14}\d$/.test(this.state.values.mobile)) {
-            errors.email = "Invalid mobile";
+            errors.mobile = "Invalid mobile";
+          }
+          if (this.state.values.country === "") {
+            errors.country = "Required";
           }
           if (this.state.values.city === "") {
             errors.city = "Required";
@@ -166,10 +176,9 @@ getErrorsByValues = () => {
     const reader = new FileReader();
     reader.onload = event => {
       // console.log(event.target.result);
-      this.setState({
-        values:{
-        avatar: event.target.result
-        }
+      this.updateValue({
+            name: "avatar",
+            value: event.target.result
       });
     };
 
@@ -194,49 +203,53 @@ previousFormPage = event => {
   // {`${this.state.currentStep === 1 ? "is-active" : ""} `}
   render() {
     // console.log(this);
-    const updateCities = this.getUpdateCities(values.country);
+    const updateCities = this.getUpdateCities(this.state.values.country);
     return (
       <div className="form-container card" onReset={this.resetForm}>
         <div className="form card-body">
         <Steps
           currentStep = {this.state.currentStep}
         />
-          {this.state.currentStep === 1 ? 
+          {this.state.currentStep === 1 && (
           <Basic
           onChange = {this.onChange}
           values={this.state.values}
           errors = {this.state.errors}
-          /> : null}
-
-         {this.state.currentStep === 2 ? 
+          /> 
+          )}
+         {this.state.currentStep === 2 && (
           <Contacts
           values={this.state.values}
           onChange={this.onChange}
           getOptionsCountries={this.getOptionsCountries(countries)}
           updateCities={updateCities}
           errors = {this.state.errors}
-          /> : null }
+          />
+          )}
         
-        {this.state.currentStep === 3 ? 
+        {this.state.currentStep === 3 && (
           <Avatar
           avatar = {this.state.values.avatar}
           onChangeAvatar={this.onChangeAvatar}
-          /> : null}
+          errors = {this.state.errors}
+          />
+          )}
 
-        {this.state.currentStep === 4 ? 
+        {this.state.currentStep === 4 && (
           <Finish
           resetForm={this.resetForm}
           values={this.state.values}
-          /> : null}
+          />
+        )}
 
-        {this.state.currentStep < 4 ? (
-            <Formactions 
+        {this.state.currentStep < 4 && (
+            <FormActions 
             previousFormPage = {this.previousFormPage}
             nextFormPage = {this.nextFormPage}
             />
-          ) : null}
+          )}
 
-        {this.state.currentStep === 4 ? (
+        {this.state.currentStep === 4 && (
           <div className="d-flex justify-content-center"> 
             <button
               type="reset"
@@ -246,7 +259,7 @@ previousFormPage = event => {
               Reset
             </button>
             </div> 
-          ) : null}
+          )}
      
     
       </div>

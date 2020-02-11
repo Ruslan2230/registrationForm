@@ -49,7 +49,7 @@ class Basic extends React.Component{
   <div className="form-group">
     <label>Password</label>
     <input
-      type="text"
+      type="password"
       className="form-control"
       placeholder="Enter password"
       ref={node => (this.password = node)}
@@ -69,7 +69,7 @@ class Basic extends React.Component{
   <div className="form-group">
     <label>Repeat password</label>
     <input
-      type="text"
+      type="password"
       className="form-control"
       placeholder="Enter repeat password"
       ref={node => (this.repeatPassword = node)}

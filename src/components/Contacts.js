@@ -50,8 +50,14 @@ class Contacts extends React.Component{
               value={values.country}
               onChange={onChange}
             >
+              <option value="">Select country</option>
               {getOptionsCountries}
             </select>
+            {errors.country ? (
+                      <div className="invalid-feedback">
+                        {errors.country}
+                      </div>
+                    ) : null}
           </div>
           <div className="form-group">
             <label htmlFor="country">City</label>
@@ -62,14 +68,18 @@ class Contacts extends React.Component{
               value={values.city}
               onChange={onChange}
             >
+              <option value="">Select city</option>
+              {updateCities.map(city => (
+                <option key={city.id} value={city.id}>
+                  {city.name}
+                </option>
+              ))}
+          </select>
               {errors.city ? (
-                  <div className="invalid-feedback">
-                    {errors.city}
-                  </div>
-                ) : null}
-
-              {updateCities}
-            </select>
+                      <div className="invalid-feedback">
+                        {errors.city}
+                      </div>
+                    ) : null}
           </div>
 </div>
 
