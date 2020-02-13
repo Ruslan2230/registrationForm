@@ -1,10 +1,21 @@
 import React from 'react';
-import image from '../images/avatar.png'
+import image from '../../images/avatar.png'
 
 
 class Avatar extends React.Component{
+
+  onChangeAvatar = event => {
+    // console.log(event.target.files);
+    const reader = new FileReader();
+    reader.onload = event => {
+      // console.log(event.target.result);
+    
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  };
     render() {
-    const { avatar, onChangeAvatar, errors} = this.props;
+    const { avatar, errors, updateValue } = this.props;
     console.log(this);
    return(
        <div>
@@ -19,7 +30,7 @@ class Avatar extends React.Component{
               className="custom-file-input"
               id="avatar"
               name ="avatar"
-              onChange={onChangeAvatar}
+              onChange={this.onChangeAvatar(updateValue)}
             />
             <label 
             htmlFor="avatar"

@@ -1,12 +1,11 @@
 import React from 'react';
-import countries from "../data/countries";
-import cities from "../data/cities";
 import FormActions from './FormActions';
-import Basic from '../components/Basic';
-import Contacts from '../components/Contacts';
-import Avatar from '../components/Avatar';
-import Finish from '../components/Finish'
-import Steps from '../components/Steps'
+import Basic from './FormSteps/Basic';
+import Contacts from './FormSteps/Contacts';
+import Avatar from './FormSteps/Avatar';
+import Finish from './FormSteps/Finish';
+import Steps from '../components/Steps';
+
 
 // "Must be 5 characters or more"
 // "Required"
@@ -31,17 +30,7 @@ export default class App extends React.Component {
       },
       currentStep: 1,
         // типы через string
-        errors: {
-          firstname: false,
-          lastname: false,
-          password: false,
-          repeatPassword: false,
-          email: false,
-          mobile: false,
-          country: false,
-          city: false,
-          avatar: false,
-        }
+        errors: {}
     };
     this.state = {...this.initialState}
   }
@@ -138,61 +127,13 @@ getErrorsByValues = () => {
       console.log("submit", this.state);
   };
   
-
-  getOptionsCountries = items => {
-    return items.map(item => (
-      <option key={item.id} value={item.id}>
-        {item.name}
-      </option>
-    ));
-  };
-
- 
-
-  getUpdateCities = countryValue => {
-    // const citiesArr = Object.values(cities);
-    // const optionCities = [{ id: 0, name: "Select city" }];
-    // const { country } = this.state;
-
-    // citiesArr.forEach((item, index) => {
-    //   if (+item.country === +country) {
-    //     const cityItem = {
-    //       id: index + 1,
-    //       name: item.name,
-    //     };
-    //     optionCities.push(cityItem);
-    //   } 
-    // });
-    return Object.keys(cities).reduce((acc, cityId) => {
-        if (cities[cityId].country === Number(countryValue)) {
-            acc.push({id: cityId, name: cities[cityId].name})
-        }
-        return acc
-    },[]);
-  };
-
-  onChangeAvatar = event => {
-    // console.log(event.target.files);
-    const reader = new FileReader();
-    reader.onload = event => {
-      // console.log(event.target.result);
-      this.updateValue({
-            name: "avatar",
-            value: event.target.result
-      });
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-  };
-  
-previousFormPage = event => {
+  previousFormPage = event => {
   event.preventDefault();
 
-  if (this.state.currentStep > 1) {
     this.setState({
       currentStep: this.state.currentStep - 1,
     });
-  }
+  
 }
 
   resetForm = () => {
@@ -203,13 +144,10 @@ previousFormPage = event => {
   // {`${this.state.currentStep === 1 ? "is-active" : ""} `}
   render() {
     // console.log(this);
-    const updateCities = this.getUpdateCities(this.state.values.country);
     return (
       <div className="form-container card" onReset={this.resetForm}>
         <div className="form card-body">
-        <Steps
-          currentStep = {this.state.currentStep}
-        />
+        <Steps currentStep = {this.state.currentStep} />
           {this.state.currentStep === 1 && (
           <Basic
           onChange = {this.onChange}
@@ -221,8 +159,6 @@ previousFormPage = event => {
           <Contacts
           values={this.state.values}
           onChange={this.onChange}
-          getOptionsCountries={this.getOptionsCountries(countries)}
-          updateCities={updateCities}
           errors = {this.state.errors}
           />
           )}
@@ -230,39 +166,22 @@ previousFormPage = event => {
         {this.state.currentStep === 3 && (
           <Avatar
           avatar = {this.state.values.avatar}
-          onChangeAvatar={this.onChangeAvatar}
           errors = {this.state.errors}
+          updateValue = {this.updateValue}
           />
           )}
 
         {this.state.currentStep === 4 && (
-          <Finish
-          resetForm={this.resetForm}
-          values={this.state.values}
-          />
+          <Finish resetForm={this.resetForm} values={this.state.values} />
         )}
 
-        {this.state.currentStep < 4 && (
-            <FormActions 
-            previousFormPage = {this.previousFormPage}
-            nextFormPage = {this.nextFormPage}
-            />
-          )}
-
-        {this.state.currentStep === 4 && (
-          <div className="d-flex justify-content-center"> 
-            <button
-              type="reset"
-              className="btn btn-primary "
-              onClick={this.resetForm}
-            >
-              Reset
-            </button>
-            </div> 
-          )}
-     
-    
-      </div>
+          <FormActions 
+          previousFormPage = {this.previousFormPage}
+          nextFormPage = {this.nextFormPage}
+          currentStep = {this.state.currentStep}
+          resetForm = {this.resetForm}
+          />
+       </div>
       </div>
     );
   }

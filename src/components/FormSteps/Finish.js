@@ -1,6 +1,6 @@
 import React from 'react';
-import countries from "../data/countries";
-import cities from "../data/cities";
+import countries from "../../data/countries";
+import cities from "../../data/cities";
 
 
 class Finish extends React.Component{
@@ -15,7 +15,7 @@ class Finish extends React.Component{
           <div className="row mb-4"> 
           <div className="col-4"> 
           <img className="img"  width="100%"
-    height="150px" src={values.avatar}  alt={"avatar"} />
+    height="150px" src={values.avatar}  alt="avatar" />
           </div>
           <div className="col-8 d-flex align-items-center"> 
           <h4>{`${values.firstname} ${values.lastname}`} </h4>
