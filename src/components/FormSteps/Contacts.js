@@ -5,7 +5,7 @@ import cities from "../../data/cities";
 
 
 class Contacts extends React.Component{
-  
+
   getOptions = items => {
     return items.map(item => (
       <option key={item.id} value={item.id}>
@@ -14,22 +14,7 @@ class Contacts extends React.Component{
     ));
   };
 
- 
-
   normalizeCities = countryId => {
-    // const citiesArr = Object.values(cities);
-    // const optionCities = [{ id: 0, name: "Select city" }];
-    // const { country } = this.state;
-
-    // citiesArr.forEach((item, index) => {
-    //   if (+item.country === +country) {
-    //     const cityItem = {
-    //       id: index + 1,
-    //       name: item.name,
-    //     };
-    //     optionCities.push(cityItem);
-    //   } 
-    // });
     return Object.keys(cities).reduce((acc, cityId) => {
         if (cities[cityId].country === Number(countryId)) {
             acc.push({id: cityId, name: cities[cityId].name})
@@ -39,7 +24,7 @@ class Contacts extends React.Component{
   };
     render() {
     const {values, onChange, errors} = this.props;
-    console.log(this);
+
    return(
        <div>
          <Field
@@ -101,12 +86,7 @@ class Contacts extends React.Component{
                     ) : null}
           </div>
 </div>
-
-
-
-
-
-   )
+)
 }
 };
 

@@ -3,11 +3,8 @@ import Field from "../Field";
 
 class Basic extends React.Component{
     render() {
-
     const {values, errors, onChange} = this.props;
-
-    // console.log(this);
-   return(
+    return(
        <div>
          <Field
             id="firstname"
@@ -53,8 +50,7 @@ class Basic extends React.Component{
             error={errors.repeatPassword}
           />
 
-
-  <fieldset className="form-group">
+    <fieldset className="form-group">
     <div>Gender</div>
     <div className="form-check">
       <input
@@ -88,12 +84,7 @@ class Basic extends React.Component{
 
   </fieldset>
 </div>
-
-
-
-
-
-   )
+)
 }
 };
 

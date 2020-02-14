@@ -1,7 +1,4 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
-
-
 
 class FormActions extends React.Component{
     render() {

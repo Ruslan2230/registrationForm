@@ -6,11 +6,10 @@ import cities from "../../data/cities";
 class Finish extends React.Component{
     render() {
     const {values} = this.props;
-    console.log(this);
+
    return(
        <div>
-
-      <div className="container-fluid">
+        <div className="container-fluid">
 
           <div className="row mb-4"> 
           <div className="col-4"> 
@@ -37,20 +36,8 @@ class Finish extends React.Component{
               </p>
          </div>
     </div>
-
-    {/* <div className="d-flex justify-content-center"> 
-    <button
-      type="reset"
-      className="btn btn-primary"
-      onClick={resetForm}
-    >
-        Reset
-    </button>
-          </div> */}
-
 </div>
 </div>
-
 )
 }
 };

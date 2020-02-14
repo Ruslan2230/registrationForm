@@ -2,26 +2,25 @@ import React from 'react';
 import image from '../../images/avatar.png'
 
 
-class Avatar extends React.Component{
+const Avatar = props => {
+  const { avatar, errors, onChange } = props;
+  const onChangeAvatar = e => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      onChange({
+        target: {
+          name: "avatar",
+          value: e.target.result,
+        },
+      })
+    }
+   reader.readAsDataURL(e.target.files[0]);
+  }
 
-  onChangeAvatar = event => {
-    // console.log(event.target.files);
-    const reader = new FileReader();
-    reader.onload = event => {
-      // console.log(event.target.result);
-    
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-  };
-    render() {
-    const { avatar, errors, updateValue } = this.props;
-    console.log(this);
-   return(
+    return(
        <div>
 
       <div className="custom-file">
-
       <img className="img" width="100%" src={avatar === "" ? image : avatar}  alt={"avatar"} />
       <div className="mb-4">
         <div className="custom-file">
@@ -30,7 +29,7 @@ class Avatar extends React.Component{
               className="custom-file-input"
               id="avatar"
               name ="avatar"
-              onChange={this.onChangeAvatar(updateValue)}
+              onChange={onChangeAvatar}
             />
             <label 
             htmlFor="avatar"
@@ -45,9 +44,7 @@ class Avatar extends React.Component{
           </div>
 </div>
 </div>
-
 )
-}
-};
+  };
 
 export default Avatar;

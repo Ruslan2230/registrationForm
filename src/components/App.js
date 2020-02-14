@@ -7,9 +7,6 @@ import Finish from './FormSteps/Finish';
 import Steps from '../components/Steps';
 
 
-// "Must be 5 characters or more"
-// "Required"
-// "Must be equal password"
 export default class App extends React.Component {
   constructor() {
     super();
@@ -29,42 +26,27 @@ export default class App extends React.Component {
         avatar: "",
       },
       currentStep: 1,
-        // типы через string
         errors: {}
     };
     this.state = {...this.initialState}
   }
 
-  onChange = event => {
-    // console.log(event.target.name, event.target.value);
-    // this.setState({
-    //   [event.target.name]: event.target.value
-    // });
-    // const { name, value } = event.target;
-    // const { [name]: _, ...errors } = this.state.errors;
-    // event.persist()
-    this.updateValue({
-      name: event.target.name,
-      value: event.target.value
-    })
-  };
-
-  updateValue = ({value, name}) => {
+  onChange = e => {
+    const { name, value } = e.target
     this.setState (state => ({
       values: {
        ...state.values,
-       [name]: value
+       [name]: value,
      },
      errors: {
        ...state.errors,
-       [name]: false
-     }
+       [name]: null,
+     },
  }))
-  }
+  };
 
-getErrorsByValues = () => {
+ getErrorsByValues = () => {
   const errors = {};
-    // console.log("refs", this.username.value, this.password.value);
     switch (this.state.currentStep) {
       case 1:
         if (this.state.values.firstname.length < 5) {
@@ -121,10 +103,7 @@ getErrorsByValues = () => {
         errors: {},
         currentStep: state.currentStep + 1,
       }));
-
-      console.log("submit", this.state);
     }
-      console.log("submit", this.state);
   };
   
   previousFormPage = event => {
@@ -133,21 +112,18 @@ getErrorsByValues = () => {
     this.setState({
       currentStep: this.state.currentStep - 1,
     });
-  
-}
+  }
 
   resetForm = () => {
     this.setState(this.initialState)
      };
 
-
-  // {`${this.state.currentStep === 1 ? "is-active" : ""} `}
   render() {
-    // console.log(this);
     return (
       <div className="form-container card" onReset={this.resetForm}>
         <div className="form card-body">
         <Steps currentStep = {this.state.currentStep} />
+        
           {this.state.currentStep === 1 && (
           <Basic
           onChange = {this.onChange}
@@ -155,6 +131,7 @@ getErrorsByValues = () => {
           errors = {this.state.errors}
           /> 
           )}
+
          {this.state.currentStep === 2 && (
           <Contacts
           values={this.state.values}
@@ -167,7 +144,7 @@ getErrorsByValues = () => {
           <Avatar
           avatar = {this.state.values.avatar}
           errors = {this.state.errors}
-          updateValue = {this.updateValue}
+          onChange = {this.onChange}
           />
           )}
 
@@ -181,6 +158,7 @@ getErrorsByValues = () => {
           currentStep = {this.state.currentStep}
           resetForm = {this.resetForm}
           />
+
        </div>
       </div>
     );

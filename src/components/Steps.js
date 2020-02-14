@@ -6,7 +6,6 @@ class Steps extends React.Component {
   render() {
     const { currentStep } = this.props;
 
-    // console.log(this);
     return (
       <div>
         <div className="steps">

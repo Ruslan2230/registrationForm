@@ -10,16 +10,16 @@ body {
         width: 460px;
       }
    
-      .invalid-feedback {
-        display: block;
-      }
-
-      .btn-primary {
-        color: #212529;
-        background-color: #f8f9fa;
-        border-color: #f8f9fa;
-        margin-right: 1.5rem
+    .invalid-feedback {
+      display: block;
     }
+
+    .btn-primary {
+      color: #212529;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+      margin-right: 1.5rem
+  }
 
     .btn-next:focus {
       box-shadow: 0 0 0 0.2rem hsla(208,7%,46%,.5);
